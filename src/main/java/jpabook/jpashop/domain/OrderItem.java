@@ -7,7 +7,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jpabook.jpashop.domain.item.Item;
 import lombok.Getter;
@@ -24,7 +23,7 @@ public class OrderItem {
   @Column(name = "order_item_id")
   private Long id;
 
-  @OneToMany(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "item_id")
   private Item item;
 

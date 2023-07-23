@@ -10,7 +10,7 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.ManyToMany;
 import java.util.ArrayList;
 import java.util.List;
-import jpabook.jpashop.domain.Categories;
+import jpabook.jpashop.domain.Category;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,7 +24,7 @@ public abstract class Item {
   @Id
   @GeneratedValue
   @Column(name = "item_id")
-  private long id;
+  private Long id;
 
   private String name;
 
@@ -33,5 +33,5 @@ public abstract class Item {
   private int stockQuantity;
 
   @ManyToMany(mappedBy = "items")
-  private List<Categories> categories = new ArrayList<>();
+  private List<Category> categories = new ArrayList<>();
 }
