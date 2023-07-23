@@ -23,8 +23,10 @@ import org.springframework.data.annotation.CreatedDate;
 
 @Entity
 @Table(name = "orders")
-@Getter @Setter
+@Getter
+@Setter
 public class Order {
+
 
   @Id
   @GeneratedValue
@@ -34,16 +36,31 @@ public class Order {
   @Enumerated(EnumType.STRING)
   private OrderStatus status;
 
-  @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
-  private List<OrderItem> orderItems= new ArrayList<>();
+  @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+  private List<OrderItem> orderItems = new ArrayList<>();
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "member_id")
   private Member member;
 
-  @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-  @JoinColumn(name="delivery_id")
+  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @JoinColumn(name = "delivery_id")
   private Delivery delivery;
-
   private LocalDateTime orderDate;
+
+  //연관 관계 메소드
+  public void setMember(Member member) {
+    this.member=member;
+    member.getOrders().add(this);
+  }
+
+  public void addOrderItem(OrderItem orderItem) {
+    orderItems.add(orderItem);
+    orderItem.setOrder(this);
+  }
+
+  public void setDelivery(Delivery delivery) {
+    this.delivery=delivery;
+    delivery.setOrder(this);
+  }
 }
