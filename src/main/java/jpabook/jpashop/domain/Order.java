@@ -17,10 +17,10 @@ import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import jpabook.jpashop.exception.CannotCancelDeliveryException;
 import lombok.Getter;
 import lombok.Setter;
-import org.aspectj.weaver.ast.Or;
-import org.springframework.data.annotation.CreatedDate;
+
 
 @Entity
 @Table(name = "orders")
@@ -51,7 +51,7 @@ public class Order {
 
   //연관 관계 메소드
   public void setMember(Member member) {
-    this.member=member;
+    this.member = member;
     member.getOrders().add(this);
   }
 
@@ -61,7 +61,7 @@ public class Order {
   }
 
   public void setDelivery(Delivery delivery) {
-    this.delivery=delivery;
+    this.delivery = delivery;
     delivery.setOrder(this);
   }
 
@@ -70,7 +70,7 @@ public class Order {
     Order order = new Order();
     order.setMember(member);
     order.setDelivery(delivery);
-    for(OrderItem orderItem:orderItems){
+    for (OrderItem orderItem : orderItems) {
       order.addOrderItem(orderItem);
     }
 
@@ -82,23 +82,23 @@ public class Order {
 
   //비즈니스 로직
   /*
-  * 주문 취소
-  * */
-  public void cancel(){
-    if(delivery.getDeliveryStatus()==DeliveryStatus.COMP){
-      throw new IllegalStateException("이미 배송 완료된 상품은 취소가 불가능합니다.");
+   * 주문 취소
+   * */
+  public void cancel() {
+    if (delivery.getDeliveryStatus() == DeliveryStatus.COMP) {
+      throw new CannotCancelDeliveryException("이미 배송 완료된 상품은 취소가 불가능합니다.");
     }
 
     this.setStatus(OrderStatus.CANCEL);
-    for(OrderItem orderItem:orderItems){
+    for (OrderItem orderItem : orderItems) {
       orderItem.cancel();
     }
   }
 
   //조회 로직
   /*
-  * 전체 주문 가격 조회
-  * */
+   * 전체 주문 가격 조회
+   * */
   public int getTotalPrice() {
     return orderItems.stream()
         .mapToInt(OrderItem::getTotalPrice)
