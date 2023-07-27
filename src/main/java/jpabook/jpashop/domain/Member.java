@@ -28,13 +28,4 @@ public class Member {
 
   @OneToMany(mappedBy = "member")
   private List<Order> orders = new ArrayList<>();
-
-  //연관 관계 메소드
-  public Member createMember(Address address,String name) {
-    Member member=new Member();
-    member.setName(name);
-    member.setAddress(address);
-
-    return member;
-  }
 }
