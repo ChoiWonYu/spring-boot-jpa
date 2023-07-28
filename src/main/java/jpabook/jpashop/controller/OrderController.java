@@ -23,10 +23,10 @@ public class OrderController {
       return this.orderService.order(memberId,productId,orderCreateRequestDto.getCount());
     }
 
-    @GetMapping("/orders")
-    public List<Order> getOrder(){
-      return this.orderService.getOrderList();
-    }
+//    @GetMapping("/orders")
+//    public List<Order> getOrder(){
+//      return this.orderService.getOrderList();
+//    }
 
     @PostMapping("/orders/cancel/{orderId}")
     public String cancelOrder(@PathVariable(value="orderId") Long orderId){

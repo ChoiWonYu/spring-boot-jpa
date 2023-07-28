@@ -1,5 +1,6 @@
 package jpabook.jpashop.service;
 
+import java.util.List;
 import jpabook.jpashop.domain.Delivery;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.Order;
@@ -25,7 +26,7 @@ public class OrderService {
    * 주문
    */
   @Transactional
-  public Long order(Long memberId, Long itemId, int count) {
+  public Order order(Long memberId, Long itemId, int count) {
     Member member=memberRepository.findOne(memberId);
     Item item=itemRepository.findOne(itemId);
 
@@ -38,7 +39,7 @@ public class OrderService {
 
     orderRepository.save(order);
 
-    return order.getId();
+    return order;
   }
 
   @Transactional

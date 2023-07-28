@@ -43,9 +43,9 @@ class OrderServiceTest {
 
     int orderCount = 2;
     //when
-    Long orderId = orderService.order(member.getId(), book.getId(), orderCount);
+    Order order = orderService.order(member.getId(), book.getId(), orderCount);
     //then
-    Order getOrder = orderRepository.findOne(orderId);
+    Order getOrder = orderRepository.findOne(order.getId());
 
     assertEquals(OrderStatus.ORDER, getOrder.getStatus());
     assertEquals(1, getOrder.getOrderItems().size());
@@ -61,13 +61,13 @@ class OrderServiceTest {
     Book book = createBook("하이", 10000, 10);
 
     int orderCount = 2;
-    Long orderId = orderService.order(member.getId(), book.getId(), orderCount);
+    Order order = orderService.order(member.getId(), book.getId(), orderCount);
 
     //when
-    orderService.cancelOrder(orderId);
+    orderService.cancelOrder(order.getId());
 
     //then
-    Order getOrder = orderRepository.findOne(orderId);
+    Order getOrder = orderRepository.findOne(order.getId());
 
     assertEquals(OrderStatus.CANCEL, getOrder.getStatus());
     assertEquals(10, book.getStockQuantity());
