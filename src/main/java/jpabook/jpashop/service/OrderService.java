@@ -5,7 +5,9 @@ import jpabook.jpashop.domain.Delivery;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.Order;
 import jpabook.jpashop.domain.OrderItem;
+import jpabook.jpashop.domain.OrderStatus;
 import jpabook.jpashop.domain.item.Item;
+import jpabook.jpashop.dto.order.OrderCreateResponseDto;
 import jpabook.jpashop.repository.ItemRepository;
 import jpabook.jpashop.repository.MemberRepository;
 import jpabook.jpashop.repository.OrderRepository;
@@ -26,24 +28,24 @@ public class OrderService {
    * 주문
    */
   @Transactional
-  public Order order(Long memberId, Long itemId, int count) {
-    Member member=memberRepository.findOne(memberId);
-    Item item=itemRepository.findOne(itemId);
+  public OrderCreateResponseDto order(Long memberId, Long itemId, int count) {
+    Member member = memberRepository.findOne(memberId);
+    Item item = itemRepository.findOne(itemId);
 
-    Delivery delivery=new Delivery();
+    Delivery delivery = new Delivery();
     delivery.setAddress(member.getAddress());
 
-    OrderItem orderItem=OrderItem.createOrderItem(item,item.getPrice(),count);
+    OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(), count);
 
-    Order order=Order.createOrder(member,delivery,orderItem);
+    Order order = Order.createOrder(member, delivery, orderItem);
 
     orderRepository.save(order);
 
-    return order;
+    return new OrderCreateResponseDto(OrderStatus.ORDER);
   }
 
   @Transactional
-  public void cancelOrder(Long orderId){
+  public void cancelOrder(Long orderId) {
     Order order = orderRepository.findOne(orderId);
     order.cancel();
   }

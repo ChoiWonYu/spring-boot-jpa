@@ -1,26 +1,27 @@
 package jpabook.jpashop.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import jpabook.jpashop.domain.Order;
 import jpabook.jpashop.dto.order.OrderCreateRequestDto;
+import jpabook.jpashop.dto.order.OrderCreateResponseDto;
 import jpabook.jpashop.service.OrderService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class OrderController {
     final private OrderService orderService;
 
     @PostMapping("/orders/{productId}")
-    public Order createOrder(@RequestParam Long memberId,
-        @PathVariable(value="productId") Long productId, @RequestBody OrderCreateRequestDto orderCreateRequestDto ){
-      return this.orderService.order(memberId,productId,orderCreateRequestDto.getCount());
+    public OrderCreateResponseDto createOrder(@PathVariable(value="productId") Long productId,
+        @Valid @RequestBody OrderCreateRequestDto orderCreateRequestDto ){
+      return this.orderService.order(orderCreateRequestDto.getMemberId(),productId,orderCreateRequestDto.getCount());
     }
 
 //    @GetMapping("/orders")
