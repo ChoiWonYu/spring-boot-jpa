@@ -33,5 +33,4 @@ public class ItemController {
     return itemService.updateBook(itemId,bookUpdateRequestDto);
   }
 
-
 }
