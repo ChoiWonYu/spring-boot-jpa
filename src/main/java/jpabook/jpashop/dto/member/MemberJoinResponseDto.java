@@ -4,9 +4,11 @@ import jpabook.jpashop.domain.Address;
 import jpabook.jpashop.domain.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class MemberJoinResponseDto {
