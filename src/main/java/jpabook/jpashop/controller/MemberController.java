@@ -24,9 +24,13 @@ public class MemberController {
   }
 
 
-  @PostMapping("/members/register")
-  public MemberJoinResponseDto register(@Valid @RequestBody MemberJoinRequestDto memberForm) {
+  @PostMapping("/members/signup")
+  public MemberJoinResponseDto signup(@Valid @RequestBody MemberJoinRequestDto memberForm) {
     return memberService.join(memberForm);
   }
 
+  @PostMapping("/members/signin")
+  public MemberSigninResponseDto signin(@Valid @RequestBody MemberSigninRequestDto memberInfo) {
+    return memberService.signin(memberInfo);
+  }
 }
