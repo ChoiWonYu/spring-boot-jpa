@@ -4,6 +4,8 @@ import java.util.List;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.dto.member.MemberJoinRequestDto;
 import jpabook.jpashop.dto.member.MemberJoinResponseDto;
+import jpabook.jpashop.dto.member.MemberSigninRequestDto;
+import jpabook.jpashop.dto.member.MemberSigninResponseDto;
 import jpabook.jpashop.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,7 +24,7 @@ public class MemberService {
   public MemberJoinResponseDto join(MemberJoinRequestDto memberForm) {
     validateDuplicateMember(memberForm.getName());
 
-    Member createdMember=new Member();
+    Member createdMember = new Member();
 
     createdMember.setAddress(memberForm.getAddress());
     createdMember.setName(memberForm.getName());
@@ -46,6 +48,10 @@ public class MemberService {
 
   public Member findOne(Long id) {
     return memberRepository.findOne(id);
+  }
+
+  public MemberSigninResponseDto signin(MemberSigninRequestDto memberInfo) {
+    return new MemberSigninResponseDto(memberInfo.getName(), "token");
   }
 
   //회원 전체 조회
