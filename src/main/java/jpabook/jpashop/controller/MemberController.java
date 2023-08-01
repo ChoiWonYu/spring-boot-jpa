@@ -9,6 +9,7 @@ import jpabook.jpashop.dto.member.MemberJoinRequestDto;
 import jpabook.jpashop.dto.member.MemberJoinResponseDto;
 import jpabook.jpashop.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,7 +33,7 @@ public class MemberController {
   }
 
   @PostMapping("/members/signin")
-  public MemberSigninResponseDto signin(@Valid @RequestBody MemberSigninRequestDto memberInfo) {
-    return memberService.signin(memberInfo);
+  public ResponseEntity<String> signin(@Valid @RequestBody MemberSigninRequestDto memberInfo) {
+    return ResponseEntity.ok().body(memberService.signin(memberInfo));
   }
 }

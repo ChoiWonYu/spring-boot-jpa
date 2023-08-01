@@ -1,6 +1,7 @@
 package jpabook.jpashop.service;
 
 import java.util.List;
+import jpabook.jpashop.config.jwt.TokenProvider;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.dto.member.MemberJoinRequestDto;
 import jpabook.jpashop.dto.member.MemberJoinResponseDto;
@@ -8,6 +9,7 @@ import jpabook.jpashop.dto.member.MemberSigninRequestDto;
 import jpabook.jpashop.dto.member.MemberSigninResponseDto;
 import jpabook.jpashop.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +20,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
   private final MemberRepository memberRepository;
+
+  @Value("${jwt.secret}")
+  private String secretKey;
+
+  private Long expiredMs=1000*60*60L;
 
   //회원 가입
   @Transactional
@@ -50,8 +57,8 @@ public class MemberService {
     return memberRepository.findOne(id);
   }
 
-  public MemberSigninResponseDto signin(MemberSigninRequestDto memberInfo) {
-    return new MemberSigninResponseDto(memberInfo.getName(), "token");
+  public String signin(MemberSigninRequestDto memberInfo) {
+    return TokenProvider.craeteJwt(memberInfo.getName(),secretKey,expiredMs);
   }
 
   //회원 전체 조회
